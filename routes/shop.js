@@ -4,6 +4,6 @@ const rootDir = require('../util/path')
 const adminData = require('./admin')
 const router = express.Router()
 router.get('/', (req, res, next) => {
-    res.render('shop', { products: adminData.products, docTitle:'Shop'})
+    res.render('shop', { products: adminData.products, pageTitle:'Shop', path : '/'})
 })
 module.exports = router
