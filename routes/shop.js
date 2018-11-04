@@ -8,6 +8,7 @@ router.get('/', (req, res, next) => {
         hasProducts: adminData.products.length > 0 ,
         products: adminData.products, 
         pageTitle:'Shop',
+        path:'/',
         activeShop:true
     })
 })

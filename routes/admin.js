@@ -8,6 +8,7 @@ router.get('/add-product', (req, res, next) => {
         pageTitle: 'Add Product', 
         productCSS:true,
         formsCSS: true,
+        path:'/admin/add-product',
         activeAddProduct:true})
 })
 router.post('/add-product', (req, res, next) => {
