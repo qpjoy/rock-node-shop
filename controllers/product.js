@@ -23,4 +23,3 @@ exports.getProducts = (req, res, next) => {
         activeShop: true
     })
 }
-exports.products = products
