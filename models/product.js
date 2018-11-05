@@ -19,13 +19,13 @@ module.exports = class Product {
             })
         })
     }
-    static fetchAll(){
+    static fetchAll(callback){
         const products = path.join(rootDir, 'data','products.json')
         fs.readFile(products, (err, fileContent) => {
             if(err){
-                return []
+                callback([])
             }
-            return JSON.parse(fileContent)
+            callback(JSON.parse(fileContent))
         })
     }
 }
