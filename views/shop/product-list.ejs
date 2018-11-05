@@ -13,14 +13,14 @@
                                 <h1 class="product__title"><%= product.title %></h1>
                             </header>
                             <div class="card__image">
-                                <img src="http://ichef.bbci.co.uk/wwfeatures/wm/live/1600_640/images/live/p0/2v/dp/p02vdpfn.jpg" alt="">
+                                <img src="<%= product.imageUrl%>" alt="<%= product.title%>">
                             </div>
                             <div class="card__content">
                                 <h2 class="product__price">
-                                    $19.99
+                                    $<%= product.price%>
                                 </h2>
                                 <p class="product__description">
-                                    A very interesting book...
+                                    <%= product.description%>
                                 </p>
                             </div>
                             <div class="card__actions">
