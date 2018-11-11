@@ -17,6 +17,17 @@ exports.postAddProduct = (req, res, next) => {
     product.save()
     res.redirect('/')
 }
+exports.getEditProduct = (req, res, next) => {
+    const editMode = req.query.edit
+    if(!editMode){
+        return res.redirect('/')
+    }
+    res.render('admin/add-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode
+    })
+}
 exports.getProducts = (req, res, next) => {
     Product.fetchAll((products) => {
         res.render('admin/products', {
