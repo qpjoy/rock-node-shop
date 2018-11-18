@@ -13,7 +13,12 @@ exports.postAddProduct = (req, res, next) => {
     const description = req.body.description
     const product = new Product(null,title, imageUrl, description, price)
     product.save()
-    res.redirect('/')
+    .then(() => {
+        res.redirect('/')
+    })
+    .catch(err => {
+        console.log(err)
+    })
 }
 exports.getEditProduct = (req, res, next) => {
     const editMode = req.query.edit
