@@ -47,8 +47,19 @@ module.exports = class Cart{
             updatedCart.products = updatedCart.products.filter( pro => pro.id !== id );
             updatedCart.totalPrice = updatedCart.totalPrice - productQty * productPrice;
             fs.writeFile(cart_file, JSON.stringify(updatedCart), err => {
-                console.log(err)
+                console.log(err);
             })
+        })
+    }
+    static getCart(cb){
+        fs.readFile(cart_file, (err, fileContent) => {
+            const cart = JSON.parse(fileContent);
+            if (err) {
+                return cb(null)
+            }
+            else {
+                return cb(cart);
+            }
         })
     }
 }
