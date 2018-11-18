@@ -30,11 +30,11 @@ exports.getEditProduct = (req, res, next) => {
         return res.redirect('/')
     }
     const productId = req.params.id
-    Product.findById(productId, product => {
+    Product.findByPk(productId)
+    .then(product => {
         if(!product){
-            return res.redirect('/')
+            return redirect('/')
         }
-        console.log(product)
         res.render('admin/edit-product', {
             pageTitle: 'Edit Product',
             path: '/admin/edit-product',
@@ -42,7 +42,9 @@ exports.getEditProduct = (req, res, next) => {
             product: product
         })
     })
-    
+    .catch(err => {
+        console.log(err)
+    })
 }
 exports.postEditProduct = (req, res, next) => {
     const productId = req.body.id;
@@ -50,25 +52,38 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImage = req.body.imageUrl;
     const updatedPrice = req.body.price;
     const updatedDescription = req.body.description;
-    const updatedProduct = new Product(
-        productId,
-        updatedTitle,
-        updatedImage,
-        updatedDescription,
-        updatedPrice
-    );
-    updatedProduct.save()
-    res.redirect('/admin/products')
+    
+    Product.findByPk(productId)
+    .then(product => {
+        if(!product){
+            return redirect('/')
+        }
+        product.title = updatedTitle;
+        product.price = updatedPrice;
+        product.description = updatedDescription;
+        product.imageUrl = updatedImage
+        return product.save()
+    })
+    .then(updatedProduct => {
+        res.redirect('/admin/products')
+    })
+    .catch(err => {
+        console.log(err)
+    })
+   
+    
 }
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll((products) => {
+    Product.findAll()
+    .then(products => {
         res.render('admin/products', {
-            hasProducts: products.length > 0,
             products: products,
             pageTitle: 'Admin Products',
             path: '/admin/products',
-            activeShop: true
         })
+    })
+    .catch(err => {
+        console.log(err)
     })
 }
 exports.postDeleteProduct = (req, res, next) => {
