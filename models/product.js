@@ -19,7 +19,7 @@ const Product = sequelize.define('product',{
         type: Sequelize.TEXT,
         allowNull: false
     },
-    price: {
+    imageUrl: {
         type: Sequelize.STRING,
         allowNull: false,
     }
