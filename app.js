@@ -6,6 +6,8 @@ const sequelize = require('./util/database')
 const app = express()
 app.set('view engine', 'ejs')
 app.set('views', 'views')
+const User = require('./models/user')
+const Product = require('./models/product')
 
 const adminData = require('./routes/admin')
 const shopRoutes = require('./routes/shop.js')
@@ -16,7 +18,13 @@ app.use(express.static(path.join(__dirname,'public')))
 app.use('/admin', adminData.router)
 app.use(shopRoutes)
 app.use(ErrorController.get404)
-sequelize.sync()
+
+Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
+User.hasMany(Product)
+
+sequelize.sync({
+    force: true
+})
 .then(result => {
     app.listen(port, () => {
         console.log(`Server listening at port: ${port}`)
