@@ -7,7 +7,13 @@
             <% if(products.length > 0) {%>
 				<ul>
 					<% products.forEach(product => { %>
-						<li><%=product.product.title%> (<%= product.qty%>)</li>	
+						<li>
+							<p><%=product.product.title%> (<%= product.qty%>)</p>
+							<form action="/cart-delete-item" method="POST"> 
+								<input type="hidden" name="id" value="<%= product.product.id %>">
+								<button type="submit" class="btn">Delete</button>
+							</form>
+						</li>	
 					<% }) %>
 				</ul>
             <% } else {%>
