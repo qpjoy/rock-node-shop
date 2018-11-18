@@ -15,6 +15,17 @@ const port = process.env.PORT || 3000
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static(path.join(__dirname,'public')))
 
+app.use((req, res, next) => {
+    User.findByPk(1)
+    .then(user => {
+        req.user = user;
+        next();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+})
+
 app.use('/admin', adminData.router)
 app.use(shopRoutes)
 app.use(ErrorController.get404)
@@ -22,10 +33,24 @@ app.use(ErrorController.get404)
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
 User.hasMany(Product)
 
-sequelize.sync({
-    force: true
-})
+sequelize
+// .sync({
+//     force: true
+//})
+.sync()
 .then(result => {
+    return User.findByPk(1)
+})
+.then(user => {
+    if(!user){
+        return User.create({
+            name: 'Gil',
+            'email': 'gil@mail.com'
+        });
+    }
+    return user;
+})
+.then(user => {
     app.listen(port, () => {
         console.log(`Server listening at port: ${port}`)
     })
