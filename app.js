@@ -8,6 +8,8 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 const User = require('./models/user')
 const Product = require('./models/product')
+const Cart = require('./models/cart')
+const CartItem = require('./models/cart-item')
 
 const adminData = require('./routes/admin')
 const shopRoutes = require('./routes/shop.js')
@@ -30,9 +32,12 @@ app.use('/admin', adminData.router)
 app.use(shopRoutes)
 app.use(ErrorController.get404)
 
-Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
-User.hasMany(Product)
-
+Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
+User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, {through: CartItem});
+Product.belongsToMany(Cart, { through: CartItem })
 sequelize
 // .sync({
 //     force: true
