@@ -50,18 +50,13 @@ exports.getEditProduct = (req, res, next) => {
 }
 exports.postEditProduct = (req, res, next) => {
     const productId = req.body.id;
-    const updatedTitle = req.body.title;
-    const updatedImage = req.body.imageUrl;
-    const updatedPrice = req.body.price;
-    const updatedDescription = req.body.description;
-    const product = new Product(updatedTitle, updatedPrice, updatedDescription, updatedImage, productId)
-    product.save()
-    .then(updatedProduct => {
-        res.redirect('/admin/products');
-    })
-    .catch(err => {
-        console.log(err);
-    })
+    Product.findByIdAndUpdate(productId, req.body)
+        .then(updatedProduct => {
+            res.redirect('/admin/products');
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }
 exports.getProducts = (req, res, next) => {
     Product.find()
