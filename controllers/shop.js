@@ -14,21 +14,21 @@ exports.getProducts = (req, res, next) => {
     })
     
 }
-// exports.getProduct = (req, res, next) => {
-//     const productId = req.params.id
-//     Product.findByPk(productId)
-//     .then(product => {
-//         res.render('shop/product-details', {
-//             product: product,
-//             pageTitle: product.title,
-//             path: '/products'
-//         })
-//     })
-//     .catch(err => {
-//         console.log(err)
-//     })
+exports.getProduct = (req, res, next) => {
+    const productId = req.params.id
+    Product.findById(productId)
+    .then(product => {
+        res.render('shop/product-details', {
+            product: product,
+            pageTitle: product.title,
+            path: '/products'
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
 
-// }
+}
 exports.getIndex = (req, res, nex) => {
     Product.fetchAll()
     .then(products => {
