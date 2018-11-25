@@ -4,14 +4,14 @@ class User {
     constructor(name, email, cart, id){
         this.name = name;
         this.email = email;
-        this.cart = cart;
+        this.cart = { items: [...cart.items] };
         this._id = id ? new mongodb.ObjectId(id) : null;
     }
     save(){
         const db = getDb();
         let opDb;
         if(this._id){
-
+            
         }
         else {
             opDb = db.collection('users').insertOne(this);
@@ -59,6 +59,15 @@ class User {
                         quantity: this.cart.items.find( p => p.productId.toString() === pro._id.toString()).quantity
                     }
                 })
+            })
+            .catch(err => console.log(err))
+    }
+    removeItemFromCart(productId){
+        const db = getDb();
+        const updatedCart = this.cart.items.filter( item => item.productId.toString() !== productId.toString())
+        return db.collection('users').updateOne({ _id: this._id }, { $set: { cart: { items: updatedCart }}})
+            .then(result => {
+                
             })
             .catch(err => console.log(err))
     }
