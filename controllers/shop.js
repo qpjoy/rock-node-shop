@@ -43,24 +43,21 @@ exports.getIndex = (req, res, nex) => {
         console.log(err)
     })
 }
-// exports.getCart = (req, res, next) => {
-//     req.user.getCart()
-//     .then(cart => {
-//         return cart.getProducts();
-//     })  
-//     .then(cartProducts => {
-//         console.log(cartProducts)
-//         res.render('shop/cart', {
-//             path: '/cart',
-//             pageTitle: 'Your Cart',
-//             products: cartProducts
-//         })
+exports.getCart = (req, res, next) => {
+    req.user.getCart()
+    .then(cartProducts => {
+        console.log(cartProducts)
+        res.render('shop/cart', {
+            path: '/cart',
+            pageTitle: 'Your Cart',
+            products: cartProducts
+        })
 
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     })  
-// }
+    })
+    .catch(err => {
+        console.log(err);
+    })  
+}
 exports.postCart = (req, res, next) => {
     const productId = req.body.productId
     Product.findById(productId)
