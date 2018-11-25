@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const ErrorController = require('./controllers/error');
-const MongoConnect = require('./util/database').MongoConnect;
+const mongoose = require('mongoose')
 const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -31,9 +31,12 @@ app.use('/admin', adminData.router)
 app.use(shopRoutes)
 app.use(ErrorController.get404);
 
-MongoConnect(() => {
+
+
+mongoose.connect('mongodb://localhost:27017/nodeshop', { useNewUrlParser: true })
+.then(db => {
     app.listen(port, () => {
         console.log(`Server listening at port: ${port}`);
     })
 })
-
+.catch(err => console.log('err'))
