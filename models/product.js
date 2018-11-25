@@ -7,6 +7,14 @@ class Product{
         this.imageUrl = imageUrl;
     }
     save(){
+        const db = getDb();
+        db.collection('products').insertOne(this)
+        .then(product => {
+            console.log(product)
+        })
+        .catch(err => {
+            console.log(err)
+        })
 
     }
 }
