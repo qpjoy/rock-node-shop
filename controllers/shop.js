@@ -81,21 +81,20 @@ exports.postCartDeleteProduct = (req, res, next) => {
     })
 
 }
-// exports.getOrders = (req, res, next) => {
-//     req.user.getOrders({ include: ['products'] })
-//     .then(orders => {
-//         console.log("orders: ",orders)
-//         res.render('shop/orders', {
-//             path: '/orders',
-//             pageTitle: 'Your Orders',
-//             orders
-//         });
-//     })
-//     .catch(err => {
-//         console.log(err)
-//     })
+exports.getOrders = (req, res, next) => {
+    req.user.getOrders()
+    .then(orders => {
+        res.render('shop/orders', {
+            path: '/orders',
+            pageTitle: 'Your Orders',
+            orders
+        });
+    })
+    .catch(err => {
+        console.log(err)
+    })
     
-// }
+}
 exports.postOrder = (req, res, next) => {
     req.user.addOrder()
     .then(result => {
