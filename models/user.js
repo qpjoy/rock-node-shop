@@ -60,16 +60,26 @@ class User {
                     }
                 })
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
     }
     removeItemFromCart(productId){
         const db = getDb();
         const updatedCart = this.cart.items.filter( item => item.productId.toString() !== productId.toString())
         return db.collection('users').updateOne({ _id: this._id }, { $set: { cart: { items: updatedCart }}})
             .then(result => {
-                
+                console.log(result);
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
+    }
+    addOrder(){
+        const db = getDb();
+        return db.collection('orders').insertOne(this.cart)
+            .then(result => {
+                this.cart = { items : []};
+                return db.collection('users')
+                    .updateOne({ _id: this._id }, { $set:{ cart : { items: []}}});
+            })
+            .catch(err => console.log(err));
     }
     static findById(id){
         const db = getDb();
