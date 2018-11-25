@@ -29,8 +29,7 @@ app.use((req, res, next) => {
 //app.use(shopRoutes)
 app.use(ErrorController.get404)
 
-MongoConnect((client) => {
-    console.log(client)
+MongoConnect(() => {
     app.listen(port, () => {
         console.log(`Server listening at port: ${port}`)
     })
