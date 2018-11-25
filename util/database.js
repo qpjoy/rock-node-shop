@@ -3,7 +3,7 @@ const MongoClient = mongodb.MongoClient;
 
 let _db;
 const MongoConnect = (callback) => {
-    MongoClient.connect('mongodb://localhost:27017/nodeshop')
+    MongoClient.connect('mongodb://localhost:27017/nodeshop', { useNewUrlParser: true })
     .then(client => {
         _db = client.db();
         callback();

@@ -9,7 +9,7 @@ app.set('views', 'views');
 
 
 const adminData = require('./routes/admin')
-//const shopRoutes = require('./routes/shop.js')
+const shopRoutes = require('./routes/shop.js')
 const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,'public')));
@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/admin', adminData.router)
-//app.use(shopRoutes)
+app.use(shopRoutes)
 app.use(ErrorController.get404);
 
 MongoConnect(() => {
