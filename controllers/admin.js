@@ -69,19 +69,19 @@ exports.postAddProduct = (req, res, next) => {
 //         console.log(err);
 //     })
 // }
-// exports.getProducts = (req, res, next) => {
-//     req.user.getProducts()
-//     .then(products => {
-//         res.render('admin/products', {
-//             products: products,
-//             pageTitle: 'Admin Products',
-//             path: '/admin/products',
-//         });
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     })
-// }
+exports.getProducts = (req, res, next) => {
+    Product.fetchAll()
+    .then(products => {
+        res.render('admin/products', {
+            products: products,
+            pageTitle: 'Admin Products',
+            path: '/admin/products',
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
 // exports.postDeleteProduct = (req, res, next) => {
 //     const productId = req.params.id
 //     Product.findByPk(productId)
