@@ -32,7 +32,8 @@ app.use(ErrorController.get404);
 
 
 
-mongoose.connect('mongodb://localhost:27017/nodeshop', { useNewUrlParser: true })
+mongoose
+.connect('mongodb://localhost:27017/nodeshop', { useNewUrlParser: true })
 .then(db => {
    
     app.listen(port, () => {
