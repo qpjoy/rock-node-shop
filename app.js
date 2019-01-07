@@ -3,6 +3,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const ErrorController = require('./controllers/error');
 const mongoose = require('mongoose');
+
+const session = require('express-session');
+
 const User = require('./models/user');
 const app = express();
 app.set('view engine', 'ejs');
@@ -14,6 +17,7 @@ const shopRoutes = require('./routes/shop.js');
 
 const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({secret: 'my secrete', resave: false, saveUninitialized: false}))
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use((req, res, next) => {
