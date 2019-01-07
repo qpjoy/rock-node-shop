@@ -35,3 +35,29 @@ exports.getSignup = (req, res, next) => {
         isAuthenticated: req.session.isAuthenticated
     })
 }
+
+exports.postSignup = (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+
+    User.findOne({email: req.body.email})
+    .then(userDoc => {
+        console.log(userDoc);
+        if(userDoc){
+            return res.redirect('/signup');
+        }
+        const newUser = new User({
+            email: email,
+            password: password,
+            cart: { items: []}
+        })
+        return newUser.save();
+    })
+    .then(result => {
+        res.redirect('/login')
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
