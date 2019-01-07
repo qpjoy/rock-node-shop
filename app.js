@@ -36,7 +36,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use((req, res, next) => {
-    User.findById("5bfb1bad935d1a2f0a836583")
+    User.findById(req.session.user._id)
     .then(user => {
         req.user = user;
         next();
