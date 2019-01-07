@@ -8,7 +8,8 @@ exports.getProducts = (req, res, next) => {
             products: products,
             pageTitle: 'All Products',
             path: '/products',
-            activeShop: true
+            activeShop: true,
+            isAuthenticated: req.session.isAuthenticated
         })
     })
     .catch(err => {
@@ -23,7 +24,8 @@ exports.getProduct = (req, res, next) => {
         res.render('shop/product-details', {
             product: product,
             pageTitle: product.title,
-            path: '/products'
+            path: '/products',
+            isAuthenticated: req.session.isAuthenticated
         })
     })
     .catch(err => {
@@ -38,7 +40,8 @@ exports.getIndex = (req, res, nex) => {
             products: products,
             pageTitle: 'All Products',
             path: '/',
-            activeShop: true
+            activeShop: true,
+            isAuthenticated: req.session.isAuthenticated
         })
     })
     .catch(err => {
@@ -55,7 +58,8 @@ exports.getCart = (req, res, next) => {
         res.render('shop/cart', {
             path: '/cart',
             pageTitle: 'Your Cart',
-            products
+            products,
+            isAuthenticated: req.session.isAuthenticated
         })
 
     })
@@ -89,11 +93,11 @@ exports.postCartDeleteProduct = (req, res, next) => {
 exports.getOrders = (req, res, next) => {
     Order.find({ "user.userId" : req.user._id })
     .then(orders => {
-        console.log(orders)
         res.render('shop/orders', {
             path: '/orders',
             pageTitle: 'Your Orders',
-            orders
+            orders,
+            isAuthenticated: req.session.isAuthenticated
         });
     })
     .catch(err => {
