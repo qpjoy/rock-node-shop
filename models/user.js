@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
@@ -24,6 +25,17 @@ const UserSchema = new mongoose.Schema({
             }
         ]
     }
+})
+UserSchema.pre('save', function(next) {
+    bcrypt.hash(this.password, 12,(err, hashedPassword) => {
+        if(!err){
+            this.password = hashedPassword;
+            next();
+        }
+        else {
+            throw new Error('Error encrypting the password');
+        }
+    })
 })
 UserSchema.methods.addToCart = function(product){
     const productCartIndex = this.cart.items.findIndex( p => p.productId.toString() == product._id.toString());
