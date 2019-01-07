@@ -10,3 +10,10 @@ exports.postLogin = (req, res, next) => {
     req.session.isLoggedin = true;
     res.redirect('/')
 }
+
+exports.postLogout = (req, res, next) => {
+    console.log('logout user')
+    req.session.destroy(() => {
+        res.redirect('/');
+    })
+}
