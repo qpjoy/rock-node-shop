@@ -51,7 +51,7 @@ app.use((req, res, next) => {
     });
 })
 app.use((req, res, next) => {
-    res.locals.isAuthenticaed = req.session.isAuthenticaed;
+    res.locals.isAuthenticated = req.session.isAuthenticated;
     res.locals.csrfToken = req.csrfToken();
     next()
 })
