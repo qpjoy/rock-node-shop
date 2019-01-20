@@ -51,7 +51,7 @@ exports.getEditProduct = (req, res, next) => {
 }
 exports.postEditProduct = (req, res, next) => {
     const productId = req.body.id;
-    Product.findByIdAndUpdate(productId, req.body)
+    Product.findOneAndUpdate({_id: productId, userId: req.user._id.toString()}, req.body)
         .then(updatedProduct => {
             res.redirect('/admin/products');
         })
@@ -60,7 +60,7 @@ exports.postEditProduct = (req, res, next) => {
         })
 }
 exports.getProducts = (req, res, next) => {
-    Product.find()
+    Product.find({userId : req.user._id.toString()})
     .populate('userId')
     .then(products => {
         console.log(products)
@@ -76,7 +76,7 @@ exports.getProducts = (req, res, next) => {
 }
 exports.postDeleteProduct = (req, res, next) => {
     const productId = req.params.id
-    Product.findByIdAndRemove(productId)
+    Product.findOneAndDelete({ _id: productId, userId: req.user._id.toString()})
     .then(result => {
         return res.redirect('/admin/products');
     })
