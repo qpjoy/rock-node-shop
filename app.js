@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const ErrorController = require('./controllers/error');
 const mongoose = require('mongoose');
 const csrf = require('csurf');
+const flash = require('connect-flash');
 
 const session = require('express-session');
 
@@ -35,6 +36,7 @@ app.use(session({
     store: store
 }))
 app.use(csrfProtection)
+app.use(flash())
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use((req, res, next) => {
