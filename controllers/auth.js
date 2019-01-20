@@ -161,6 +161,7 @@ exports.postReset = (req, res, next) => {
                     subject:'Password reset',
                     html: `
                         <p>You requested a password reset</p>
+                        <p>${token}</p>
                         <p>Click this <a href='http://localhost:3000/reset/${token}'>link</a> to set a new password.</p>
                     `
                 })
@@ -169,5 +170,30 @@ exports.postReset = (req, res, next) => {
                 console.log('err')
             })
         }
+    })
+}
+exports.getResetPassword = (req, res, next) => {
+    const token = req.params.token;
+    User.findOne({token: token})
+    .then(user => {
+        let message = req.flash('error')
+        if (message.length > 0) {
+            message = message[0]
+        }
+        else {
+            message = null;
+        }
+        if(!user){
+            return res.redirect('/login')
+        }
+        res.render('auth/new-password', {
+            path: '/reset-password',
+            pageTitle: 'Reset Password',
+            message: message,
+            userId: user._id.toString()
+        })
+    })
+    .catch(err => {
+        console.log(err)
     })
 }
