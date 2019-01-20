@@ -10,14 +10,33 @@ exports.getLogin = (req, res, next) => {
 }
 
 exports.postLogin = (req, res, next) => {
-    User.findById('5bfb1bad935d1a2f0a836583')
+    const email = req.body.email;
+    const password = req.body.password;
+    let userFound = null;
+    User.findOne({email : email})
     .then(user => {
-        req.session.user = user;
-        req.session.isAuthenticated = true;
-        req.session.save(() => {
-            res.redirect('/')
-        })
+        if(!user){
+            return res.redirect('/login')
+        }
+        userFound = user
+        return user.verifyPassword(password)        
+    })
+    .then(validLogin => {
+        if(validLogin){
+            req.session.isLoggedin = true;
+            req.session.user = userFound;
+            req.session.save(err => {
+                return res.redirect('/');
+            })
+        }
+        else {
+            return res.redirect('/login');
+        }
         
+    })
+    .catch(err => {
+        console.log(err)
+        return res.redirect('/login');
     })
     
 }

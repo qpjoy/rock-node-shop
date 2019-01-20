@@ -68,5 +68,7 @@ UserSchema.methods.clearCart = function(){
     this.cart = { items: []};
     return this.save();
 }
-
+UserSchema.methods.verifyPassword = function(candidatePassword){
+    return bcrypt.compare(candidatePassword, this.password)
+}
 module.exports = mongoose.model('User', UserSchema);
