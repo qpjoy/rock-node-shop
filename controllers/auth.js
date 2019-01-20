@@ -190,8 +190,32 @@ exports.getResetPassword = (req, res, next) => {
             path: '/reset-password',
             pageTitle: 'Reset Password',
             message: message,
-            userId: user._id.toString()
+            userId: user._id.toString(),
+            passwordToken: token
         })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+exports.postResetPassword = (req, res, next) => {
+    const newPassword = req.body.password;
+    const userId = req.body.userId;
+    const passwordToken = req.body.passwordToken;
+    User.findOne({
+        _id: userId, 
+        resetTokenExpiration: passwordToken,
+        resetTokenExpiration: { $gt: Date.now() }})
+    .then(user => {
+        if(!user){
+            req.flash('error','Token expired! try again!')
+            return res.redirect(`/reset`)
+        }
+        user.password = newPassword;
+        return user.save();
+    })
+    .then(result => {
+        return res.redirect('/login')
     })
     .catch(err => {
         console.log(err)
