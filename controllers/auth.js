@@ -1,3 +1,12 @@
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: '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'
+    }
+}))
+
 const User = require('../models/user');
 exports.getLogin = (req, res, next) => {
     let message = req.flash('error')
@@ -94,6 +103,15 @@ exports.postSignup = (req, res, next) => {
     })
     .then(result => {
         res.redirect('/login')
+        return transporter.sendMail({
+            to: email,
+            from: 'node@mail.com',
+            subject: 'NodeShop',
+            html: `<h1>Welcome to the NodeShop:</h1>`
+        })
+        .catch(err => {
+            console.log(err)
+        })
     })
     .catch(err => {
         console.log(err)
