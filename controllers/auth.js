@@ -23,7 +23,7 @@ exports.postLogin = (req, res, next) => {
     })
     .then(validLogin => {
         if(validLogin){
-            req.session.isLoggedin = true;
+            req.session.isAuthenticated = true;
             req.session.user = userFound;
             req.session.save(err => {
                 return res.redirect('/');
