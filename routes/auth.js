@@ -1,3 +1,4 @@
+const { check } = require('express-validator/check');
 const router = require('express').Router();
 const AuthController = require('../controllers/auth');
 
@@ -7,7 +8,7 @@ router.post('/login', AuthController.postLogin);
 
 router.get('/signup', AuthController.getSignup);
 
-router.post('/signup', AuthController.postSignup);
+router.post('/signup', check('email').isEmail().withMessage('Please enter a valid email'), AuthController.postSignup);
 
 router.post('/logout', AuthController.postLogout);
 

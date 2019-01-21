@@ -11,7 +11,7 @@
                 <%= message %>
             </div>
         <%}%>
-        <form class="login-form" action="/signup" method="POST">
+        <form class="login-form" action="/signup" method="POST" invalidate>
             <input type="hidden" name="_csrf" value="<%=csrfToken%>">
             <div class="form-control">
                 <label for="title">E-mail</label>
