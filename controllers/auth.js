@@ -99,19 +99,12 @@ exports.postSignup = (req, res, next) => {
             message: errors.array()[0].msg
         })
     }
-    User.findOne({email: req.body.email})
-    .then(userDoc => {
-        if(userDoc){
-            req.flash('error', 'This email is already taken');
-            return res.redirect('/signup');
-        }
-        const newUser = new User({
-            email: email,
-            password: password,
-            cart: { items: [] }
-        })
-        return newUser.save();
+    const newUser = new User({
+        email: email,
+        password: password,
+        cart: { items: [] }
     })
+    return newUser.save()
     .then(result => {
         res.redirect('/login')
         return transporter.sendMail({
