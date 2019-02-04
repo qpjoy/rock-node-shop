@@ -36,7 +36,8 @@ exports.postLogin = (req, res, next) => {
         return res.status(422).render('auth/login', {
             path: '/login',
             pageTitle: 'Login',
-            message: errors.array()[0].msg
+            message: errors.array()[0].msg,
+           
         })
     }
     User.findOne({email : email})
@@ -90,7 +91,12 @@ exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
         path: '/singup',
         pageTitle: 'Signup',
-        message: message
+        message: message,
+        oldInput: {
+            email: '',
+            password: '',
+            confirmPassword: ''
+        }
     })
 }
 
@@ -104,7 +110,12 @@ exports.postSignup = (req, res, next) => {
         return res.status(422).render('auth/signup', {
             path: '/singup',
             pageTitle: 'Signup',
-            message: errors.array()[0].msg
+            message: errors.array()[0].msg,
+            oldInput: {
+                email,
+                password,
+                confirmPassword: req.body.confirmPassword
+            }
         })
     }
     const newUser = new User({
