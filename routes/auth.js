@@ -5,7 +5,11 @@ const AuthController = require('../controllers/auth');
 
 router.get('/login', AuthController.getLogin);
 
-router.post('/login', AuthController.postLogin);
+router.post('/login', [
+    check('email').isEmail().withMessage('Please enter a valid emaill'),
+    check('password').isLength({ min: 5 }).withMessage('Your password must be at least 5 characters')
+
+], AuthController.postLogin);
 
 router.get('/signup', AuthController.getSignup);
 

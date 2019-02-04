@@ -31,6 +31,14 @@ exports.postLogin = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     let userFound = null;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).render('auth/login', {
+            path: '/login',
+            pageTitle: 'Login',
+            message: errors.array()[0].msg
+        })
+    }
     User.findOne({email : email})
     .then(user => {
         
