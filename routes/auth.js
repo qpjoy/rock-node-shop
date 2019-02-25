@@ -6,8 +6,11 @@ const AuthController = require('../controllers/auth');
 router.get('/login', AuthController.getLogin);
 
 router.post('/login', [
-    check('email').isEmail().withMessage('Please enter a valid emaill'),
-    check('password').isLength({ min: 5 }).withMessage('Your password must be at least 5 characters')
+    check('email')
+    .isEmail()
+    .withMessage('Please enter a valid emaill')
+    .normalizeEmail(),
+    check('password').isLength({ min: 5 }).withMessage('Your password must be at least 5 characters').trim()
 
 ], AuthController.postLogin);
 
@@ -15,6 +18,7 @@ router.get('/signup', AuthController.getSignup);
 
 router.post('/signup', [
     check('email').isEmail().withMessage('Please enter a valid email')
+    .normalizeEmail()
     .custom((value, {req}) => {
         return User.findOne({email: value})
         .then(userDoc => {
@@ -23,7 +27,7 @@ router.post('/signup', [
             }
         })
     }),
-    body('password', 'Password needs to has at least 5 characteres').isLength({ min: 5}).isAlphanumeric(),
+    body('password', 'Password needs to has at least 5 characteres').isLength({ min: 5}).isAlphanumeric().trim(),
     body('confirmPassword').custom((value, {req}) => {
         if(value !== req.body.password){
             console.log('VALUES: ', value, req.body.password)
